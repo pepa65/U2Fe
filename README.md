@@ -1,41 +1,24 @@
-U2F Emulated
-============
+# U2F Emulated
+**Emulate U2F through a virtual USB device using UHID system API on linux**
 
-Software that emulates U2F through a virtual USB device using UHID
-system API on linux.
+* License: GPL-2.0
+* Author: César `MattGorko` Belley <cesar.belley@lse.epita.fr>
+* Repo: github.com/pepa65/u2fe
 
-# Usage
+## Usage
+Run privileged before visiting any website that uses U2F:
+`sudo ./u2fe`
 
-Run the program in privileged mode:
-```shell
-$ sudo ./u2f-emulated
-```
+* Test with: https://webauthn.io
 
-Then visit any website that uses U2F, such as:
-- https://webauthn.io/
+## Building
+`make`
 
-# Building
+## Setup
+`./setup.sh`
 
-Build the binary:
-```shell
-$ make
-$ ./setup.sh
-```
+## Test wit Valgrind:
+`make check-valgrind`
 
-Test the project:
-```shell
-$ make check
-```
-
-Generate doc:
-```shell
-$ make doc
-```
-
-# License
-
-This project is licensed under GPL-2.0
-
-# Author
-
-César `MattGorko` Belley <cesar.belley@lse.epita.fr>
+## Generate documentation
+`make doc`
