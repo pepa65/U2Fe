@@ -1,15 +1,28 @@
 #!/bin/sh
 set -e # Exit on error
-# setup - Generate keys
+
+# setup - Generate keys and set permissions
+
+# Keys directory (patched in Makefile)
+keydir=$HOME/.u2fe-KEYS
 
 # Keys dir
-mkdir -p keys
+mkdir -p "$keydir"
 
 # EC Key
-openssl ecparam -name prime256v1 -genkey -noout -out keys/prime256v1-key.pem
+openssl ecparam -name prime256v1 -genkey -noout -out "$keydir"/prime256v1-key.pem
 
 # x509
-openssl req -new -x509 -key keys/prime256v1-key.pem -out keys/server.pem -days 730
+openssl req -new -x509 -key "$keydir"/prime256v1-key.pem -out "$keydir"/server.pem -days 730
 
 # AES entropy bits
-head -c 48 /dev/random >keys/aes-key
+head -c 48 /dev/random >"$keydir"/aes-key
+
+# Add user to dialout group for /dev/uhid
+sudo adduser $USER dialout
+sudo chgrp
+
+# Add user to tss group for /dev/tpm*
+sudo adduser $USER tss
+sudo chgrp tss /dev/tpm*
+

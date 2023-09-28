@@ -1,3 +1,6 @@
+# Keys directory
+KEYDIR = $$HOME/.u2fe-KEYS
+
 # Compiler
 CC = clang
 
@@ -21,7 +24,12 @@ SRC = $(addprefix src/, $(SRC_FILES))
 
 OBJ = ${SRC:.c=.o}
 
-all: release
+all: patched release
+
+patched: src/crypto.c_backup
+	cp src/crypto.c src/crypto.c_backup
+	sed -i "s@keys/@$(KEYDIR)/@" src/crypto.c
+	cp src/crypto.c src/crypto.c_patched
 
 debug: CFLAGS += -g3 -O0
 debug: $(BIN)
@@ -31,6 +39,7 @@ release: $(BIN)
 
 $(BIN): $(OBJ)
 	$(CC) $(LDFLAGS) $^ -o $@
+	sed -i "s@$(KEYDIR)/@keys/@" src/crypto.c
 
 check-valgrind: debug
 	valgrind \

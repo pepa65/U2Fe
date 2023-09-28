@@ -1,8 +1,9 @@
 u2fe
-keys/*
 doc/*
 src/*.o
 src/device/*.o
 src/u2f-hid/*.o
 src/u2f-raw/*.o
 src/utils/*.o
+src/crypto.c_patched
+src/crypto.c_backup
