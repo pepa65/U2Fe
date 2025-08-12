@@ -18,7 +18,6 @@ mkdir -p "$keydir"
 [[ ! -f $keydir/aes-key ]] &&
 	head -c 48 /dev/random >"$keydir"/aes-key
 
-## This does not work somehow, just do:  sudo chown pp /dev/uhid
 # Add user to dialout group and enable it on /dev/uhid
 sudo adduser $USER dialout
 sudo chgrp dialout /dev/uhid

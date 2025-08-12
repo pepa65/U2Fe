@@ -12,16 +12,13 @@
 ## Setup
 `./setup`
 
-This setup only works with either one of these:
-* The user needs to own `/dev/uhid`: `sudo chown $USER /dev/uhid`
-* U2Fe needs to be run with root privileges: `sudo ./u2fe`
+* Alternatively, udev rules could be used.
 
 ## Usage
 Run before visiting any website that uses U2F:
 
 `./u2fe`
 
-* See the remarks under Setup
 * Test at: https://webauthn.io
 
 ## Generate documentation
