@@ -1,5 +1,5 @@
-#!/bin/sh
-set -e # Exit on error
+#!/bin/bash
+set -ex # Exit on error and trace
 
 # setup - Generate keys and set permissions
 
@@ -9,20 +9,21 @@ keydir=$HOME/.u2fe-KEYS
 # Keys dir
 mkdir -p "$keydir"
 
-# EC Key
-openssl ecparam -name prime256v1 -genkey -noout -out "$keydir"/prime256v1-key.pem
-
-# x509
-openssl req -new -x509 -key "$keydir"/prime256v1-key.pem -out "$keydir"/server.pem -days 730
+# EC Key and x509
+[[ ! -f $keydir/prime256v1-key.pem || ! -f $keydir/server.pem ]] &&
+	openssl ecparam -name prime256v1 -genkey -noout -out "$keydir"/prime256v1-key.pem &&
+	openssl req -new -x509 -key "$keydir"/prime256v1-key.pem -out "$keydir"/server.pem -days 730
 
 # AES entropy bits
-head -c 48 /dev/random >"$keydir"/aes-key
+[[ ! -f $keydir/aes-key ]] &&
+	head -c 48 /dev/random >"$keydir"/aes-key
 
-# Add user to dialout group for /dev/uhid
+## This does not work somehow, just do:  sudo chown pp /dev/uhid
+# Add user to dialout group and enable it on /dev/uhid
 sudo adduser $USER dialout
-sudo chgrp
+sudo chgrp dialout /dev/uhid
+sudo chmod g+rw /dev/uhid
 
 # Add user to tss group for /dev/tpm*
 sudo adduser $USER tss
 sudo chgrp tss /dev/tpm*
-

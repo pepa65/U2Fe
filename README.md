@@ -12,17 +12,18 @@
 ## Setup
 `./setup`
 
-Make sure the user is authorized to do I/O on `/dev/uhid`, or run with root privileges.
+This setup only works with either one of these:
+* The user needs to own `/dev/uhid`: `sudo chown $USER /dev/uhid`
+* U2Fe needs to be run with root privileges: `sudo ./u2fe`
 
 ## Usage
 Run before visiting any website that uses U2F:
 
 `./u2fe`
 
+* See the remarks under Setup
 * Test at: https://webauthn.io
 
 ## Generate documentation
 `make doc`
 
-## Test with Valgrind:
-`make check-valgrind`

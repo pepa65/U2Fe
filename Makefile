@@ -41,12 +41,6 @@ $(BIN): $(OBJ)
 	$(CC) $(LDFLAGS) $^ -o $@
 	sed -i "s@$(KEYDIR)/@keys/@" src/crypto.c
 
-check-valgrind: debug
-	valgrind \
-		--leak-check=full \
-		--track-origins=yes \
-		./$(BIN)
-
 doc:
 	doxygen
 
